@@ -171,11 +171,40 @@ int Point_Cloud(string pcd_path, string rgb_path) {
 }
 
 
+/**
+ * 显示点云图像
+ * @param pcd_path
+ * @return
+ */
+int pcl_imshow(const string& pcd_path) {
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::io::loadPCDFile(pcd_path, *cloud);
+
+    for (auto & point : cloud->points)
+        std::cout << "x:" << point.x << " "
+                  << "y:" << point.y << " "
+                  << "z:" << point.z << " " << std::endl;
+
+    pcl::visualization::CloudViewer viewer("Cloud viewer");
+
+    viewer.showCloud(cloud);
+
+    std::cout << "Loaded " << cloud->width * cloud->height << " points " << std::endl;
+
+    while (!viewer.wasStopped()) {}
+
+    return (0);
+}
+
+
 int main() {
     std::cout << "Hello, World!" << std::endl;
 //    Pcl_test();
     string pcd_path = "/home/linxu/CLionProjects/PointCloudLab/data/test/1.pcd";
     string rgb_pah = "/home/linxu/CLionProjects/PointCloudLab/data/test/000001.png";
-    Point_Cloud(pcd_path, rgb_pah);
+//    Point_Cloud(pcd_path, rgb_pah);
+    // 显示点云图像
+    pcl_imshow(pcd_path);
     return 0;
 }
