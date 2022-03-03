@@ -86,6 +86,7 @@ int Point_Cloud(string pcd_path, string rgb_path) {
     //读取点云到cloud中
     reader.read(pcd_path, *point_cloud_ptr);
 
+    // 打印点云信息
     std::cerr << "PointCloud before filtering: " << point_cloud_ptr->width * point_cloud_ptr->height
               << " data points (" << pcl::getFieldsList(*point_cloud_ptr) << ").";
 
