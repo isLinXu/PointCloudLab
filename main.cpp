@@ -3,16 +3,17 @@
 //
 
 #include <iostream>
+#include <boost/thread/thread.hpp>
 
-#include <iostream>
+// OpenCV Libs
+#include <opencv4/opencv2/opencv.hpp>
+
+// PCL Libs
 #include <pcl/common/common_headers.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/visualization/cloud_viewer.h>
 #include <pcl/console/parse.h>
-
-#include <iostream>
-#include <boost/thread/thread.hpp>
 #include <pcl/common/common_headers.h>
 #include <pcl/common/common_headers.h>
 #include <pcl/features/normal_3d.h>
@@ -21,12 +22,11 @@
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/console/parse.h>
 
-#include "opencv2/highgui.hpp"
 
 using namespace cv;
 using namespace std;
 
-int Pcl_test() {
+int PCL_test() {
     std::cout << "Test PCL !!!" << std::endl;
 
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -76,7 +76,8 @@ boost::shared_ptr<pcl::visualization::PCLVisualizer> rgbVis(pcl::PointCloud<pcl:
 }
 
 
-int Point_Cloud(string pcd_path, string rgb_path) {
+int Point_Cloud_add(const string &pcd_path, const string &rgb_path) {
+
     //! 点云对象处理
     pcl::PointCloud<pcl::PointXYZI>::Ptr point_cloud_ptr(new pcl::PointCloud<pcl::PointXYZI>);
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloudRGB_ptr(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -165,7 +166,6 @@ int Point_Cloud(string pcd_path, string rgb_path) {
     // 主循环
     while (!viewer->wasStopped()) {
         viewer->spinOnce();  //运行视图
-//        std::sleep(100);
     }
     return (0);
 }
@@ -176,12 +176,12 @@ int Point_Cloud(string pcd_path, string rgb_path) {
  * @param pcd_path
  * @return
  */
-int pcl_imshow(const string& pcd_path) {
+int PCL_imshow(const string &pcd_path) {
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::io::loadPCDFile(pcd_path, *cloud);
 
-    for (auto & point : cloud->points)
+    for (auto &point : cloud->points)
         std::cout << "x:" << point.x << " "
                   << "y:" << point.y << " "
                   << "z:" << point.z << " " << std::endl;
@@ -199,12 +199,20 @@ int pcl_imshow(const string& pcd_path) {
 
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-//    Pcl_test();
+    // PCL测试
+//    PCL_test();
+
+    // 点云文件与RGB图像路径配置
     string pcd_path = "/home/linxu/CLionProjects/PointCloudLab/data/test/1.pcd";
-    string rgb_pah = "/home/linxu/CLionProjects/PointCloudLab/data/test/000001.png";
-//    Point_Cloud(pcd_path, rgb_pah);
+
+    string rgb_pah = "/home/linxu/CLionProjects/PointCloudLab/data/test/000001.jpeg";
+
+    // 初步融合效果
+    Point_Cloud_add(pcd_path, rgb_pah);
+
     // 显示点云图像
-    pcl_imshow(pcd_path);
+    PCL_imshow(pcd_path);
+
+
     return 0;
 }
