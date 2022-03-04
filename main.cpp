@@ -201,16 +201,15 @@ int PCL_imshow(const string &pcd_path) {
 int main() {
     // PCL测试
 //    PCL_test();
-
-    // 点云文件与RGB图像路径配置
+    //! 点云文件与RGB图像路径配置
     string pcd_path = "/home/linxu/CLionProjects/PointCloudLab/data/test/1.pcd";
 
     string rgb_pah = "/home/linxu/CLionProjects/PointCloudLab/data/test/000001.jpeg";
 
-    // 初步融合效果
+    //! 初步融合效果
     Point_Cloud_add(pcd_path, rgb_pah);
 
-    // 显示点云图像
+    //! 显示点云图像
     PCL_imshow(pcd_path);
 
 
